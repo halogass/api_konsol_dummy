@@ -10,8 +10,9 @@ from random import randint
 seed(1)
 
 LICENSE_PLATE_LIST = ["B1MAN", "B1234CDA", "B6703WJF", "B7070UH", "B1496YA", "B1545SZS", "W1430TG", "W1421W", "W1767XZ", "N1468C"]
+VEHICLE_TYPE = ["CAR", "MOTORCYCLE", "BUS", "TRUCK"]
 
-hostIpAddr = "101.50.3.207"
+hostIpAddr = "127.0.0.1"
 
 app_desc = """
 Percik App as the server<br><br>
@@ -31,13 +32,9 @@ konsol = FastAPI(
     },
 )
 
-class konsolData(BaseModel):
-    D_10050 : str
+class konsolDataA(BaseModel):
     D_10100 : str
-    D_10121 : str
     DATAOUT : str
-
-
     class Config:
         schema_extra = {
             "example": {
@@ -70,15 +67,25 @@ async def get_licenseplate(licensePlateAvailable : Boolean):
     while i <= value2:
         listLp.append(LICENSE_PLATE_LIST[(value1 + i)])
         i += 1
-    
+    jumlahNopol = 0
+    dictOut = {}
+    for platnom in listLp:
+        value3 = randint(0, 3)
+        jumlahNopol += 1
+        dictOutKey = str(jumlahNopol)
+        dictOut[dictOutKey] = {
+            'license-plate':platnom,
+            'vehicle-type':VEHICLE_TYPE[value3]
+        }
+
     if licensePlateAvailable:
-        results = {"license-plate": listLp}
+        results = {"result": dictOut}
     else:
         results = {"license-plate": "UNAVAILABLE"}
     return results
 
 @konsol.post("/konsol-data", tags=["Receive console data"])
-async def receive_data(itemConsole : konsolData):
+async def receive_data(itemConsole : konsolDataA):
     dictOutput = {
         'status':"received",
         'license-plate':itemConsole.D_10100,
