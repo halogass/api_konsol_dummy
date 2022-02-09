@@ -12,7 +12,7 @@ seed(1)
 LICENSE_PLATE_LIST = ["B1MAN", "B1234CDA", "B6703WJF", "B7070UH", "B1496YA", "B1545SZS", "W1430TG", "W1421W", "W1767XZ", "N1468C"]
 VEHICLE_TYPE = ["CAR", "MOTORCYCLE", "BUS", "TRUCK"]
 
-hostIpAddr = "127.0.0.1"
+hostIpAddr = "101.50.3.207"
 
 app_desc = """
 Percik App as the server<br><br>
